@@ -1,0 +1,9 @@
+.git
+.idea
+.vscode
+appst1995.zip
+node_modules
+var/cache
+var/logs
+var/sessions
+web/uploads

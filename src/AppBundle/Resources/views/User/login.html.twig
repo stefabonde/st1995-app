@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+    <form class="form-signin" method="post" action="{{ path("fos_user_security_check") }}">
+        <div class="text-center mb-4">
+            <img src="{{ asset('bundles/app/img/icon.png') }}" alt="" width="72" height="72">
+        </div>
+        <h1 class="h3 mb-3 font-weight-normal">Accedi</h1>
+        {% if error %}
+            <div role="alert"
+                 class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        {% if csrf_token %}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+        {% endif %}
+        <label for="inputEmail" class="sr-only">Email</label>
+        <input type="text" name="_username" value="{{ last_username }}" class="form-control"
+               placeholder="Username o Email" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="_password" class="form-control" placeholder="Password" required>
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="" id="remember_me" name="_remember_me"> Ricordami
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Accedi</button>
+        <div class="mt-3">
+            <a href="{{ path('fos_user_resetting_request') }}" class="text-muted">Password
+                dimenticata?</a>
+        </div>
+        <p class="mt-5 mb-3 text-muted">&copy; {{ 'now'|date('Y') ~ ' - ' ~ siteName }}</p>
+    </form>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/login.css') }}">
+{% endblock %}

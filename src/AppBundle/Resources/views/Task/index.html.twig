@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <h3>Attività</h3>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <p class="float-right">
+                        <a class="btn btn-primary" href="{{ path('task_new') }}"><i class="fas fa-plus"></i> Nuova
+                            attività</a>
+                    </p>
+                {% endif %}
+                <p>Elenco delle attività</p>
+                <div class="clearfix"></div>
+                <table class="table datatable">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Progetto</th>
+                        <th>Priorità</th>
+                        <th>Aggiornato il</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for task in tasks %}
+                        <tr>
+                            <td><a href="{{ path('task_detail', {'task': task.id}) }}">{{ task.title }}</a></td>
+                            <td>{{ task.project }}</td>
+                            <td><i class="fas {{ task.priority.icon }}"></i> {{ task.priority }}</td>
+                            <td>{{ task.updatedAt|date('d/m/Y') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

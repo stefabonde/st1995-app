@@ -1,0 +1,36 @@
+<header>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container d-flex justify-content-between">
+            <a href="{{ path('homepage') }}" class="navbar-brand d-flex align-items-center">
+                <img src="{{ asset('bundles/app/img/icon.png') }}" alt="{{ siteName }}" style="width: 30px;"
+                     class="mr-2">
+                <strong>{{ siteName }}</strong>
+            </a>
+            <nav class="my-2 my-md-0 mr-md-3">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="p-2 text-white btn btn-outline-secondary" href="{{ path('client_index') }}"><i
+                                class="fas fa-users"></i> Clienti</a>
+                    <a class="p-2 text-white btn btn-outline-secondary" href="{{ path('project_index') }}"><i
+                                class="fas fa-project-diagram"></i> Progetti</a>
+                {% endif %}
+                <a class="p-2 text-white btn btn-outline-secondary" href="{{ path('task_index') }}"><i
+                            class="fas fa-tasks"></i> Attività</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="p-2 text-white btn btn-outline-warning" href="{{ path('report') }}">
+                        <i class="fas fa-clock"></i> Report
+                    </a>
+                    <a class="p-2 text-white btn btn-outline-primary" href="{{ path('sonata_admin_dashboard') }}">
+                        <i class="fas fa-hammer"></i> Amministrazione
+                    </a>
+                {% endif %}
+                {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                    <a href="{{ path('homepage', {'_switch_user': '_exit'}) }}" class="btn btn-outline-primary">
+                        <i class="fa fa-backward" aria-hidden="true"></i> Swicth back
+                    </a>
+                {% endif %}
+                <a class="btn btn-outline-secondary" href="{{ path('fos_user_security_logout') }}"><i
+                            class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </div>
+    </div>
+</header>

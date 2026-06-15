@@ -1,0 +1,17 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/admin.css') }}">
+{% endblock %}
+
+{% block logo %}
+    {% spaceless %}
+        <a class="logo" href="{{ path('homepage') }}">
+            {% if 'single_image' == sonata_admin.adminPool.getOption('title_mode') or 'both' == sonata_admin.adminPool.getOption('title_mode') %}
+                <img style="width: 100%;max-width: 100%;" src="{{ asset(sonata_admin.adminPool.titlelogo) }}"
+                     alt="{{ sonata_admin.adminPool.title }}">
+            {% endif %}
+        </a>
+    {% endspaceless %}
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col">
+                {% if new is defined %}
+                    <h4>Registra ore</h4>
+                {% else %}
+                    <h4>Modifica</h4>
+                {% endif %}
+                {{ form(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/app/js/time.js') }}"></script>
+{% endblock %}

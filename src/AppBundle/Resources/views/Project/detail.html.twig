@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <h3>{{ project.name }}</h3>
+                <p class="pull-right text-sm">
+                    Creato il {{ project.createdAt|date('d/m/Y H:i:s') }}<br>
+                    Aggiornato il {{ project.updatedAt|date('d/m/Y H:i:s') }}
+                </p>
+            </div>
+        </div>
+        {% if project.tasks is not empty %}
+            <div class="row mt-3">
+                <div class="col">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <p class="float-right">
+                            <a class="btn btn-primary" href="{{ path('task_new', {'project': project.id}) }}"><i
+                                        class="fas fa-plus"></i> Nuova attività</a>
+                        </p>
+                    {% endif %}
+                    <h4>Attività</h4>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Assegnato</th>
+                            <th scope="col">Priorità</th>
+                            <th scope="col">Aggiornato il</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for task in project.tasks %}
+                            {% if task.deletedAt == null and (task.assignee == app.user or is_granted('ROLE_ADMIN')) %}
+                                <tr>
+                                    <th scope="row">{{ task.id }}</th>
+                                    <td>
+                                        <a href="{{ path('task_detail', {'task': task.id}) }}">{{ task.title }}</a>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            {% for assignee in task.assignee %}
+                                                <li>{{ assignee }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        {{ task.priority }}
+                                    </td>
+                                    <td>
+                                        {{ task.updatedAt|date('d/m/Y') }}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

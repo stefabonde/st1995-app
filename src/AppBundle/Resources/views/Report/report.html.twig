@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                {{ form(form) }}
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col">
+                <h4>Clienti</h4>
+                <table class="table table-striped table-sm">
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Ore</th>
+                    </tr>
+                    {% for item in clientReport %}
+                        <tr>
+                            <td>{{ item.client }}</td>
+                            <td>{{ item.hours }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col">
+                <h4>Progetti</h4>
+                <table class="table table-striped table-sm">
+                    <tr>
+                        <th>Progetto</th>
+                        <th>Ore</th>
+                    </tr>
+                    {% for item in projectReport %}
+                        <tr>
+                            <td>{{ item.project }}</td>
+                            <td>{{ item.hours }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col">
+                <h4>Utenti</h4>
+                <table class="table table-striped table-sm">
+                    <tr>
+                        <th>Utente</th>
+                        <th>Ore</th>
+                    </tr>
+                    {% for item in userReport %}
+                        <tr>
+                            <td>{{ item.user.username }}</td>
+                            <td>{{ item.hours }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

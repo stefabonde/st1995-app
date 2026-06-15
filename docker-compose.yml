@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: st1995app-${ENV_SUFFIX:-prod}
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT:-8085}:80"
+    environment:
+      DATABASE_HOST: manualswebapp-db-${ENV_SUFFIX:-prod}
+      DATABASE_PORT: 3306
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+    networks:
+      - manualsnet
+    volumes:
+      - ./web/uploads:/var/www/html/web/uploads
+
+networks:
+  manualsnet:
+    external: true
+    name: ${NETWORK_NAME:-manualswebapp-prod_manualsnet}

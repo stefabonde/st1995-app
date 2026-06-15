@@ -1,0 +1,27 @@
+# Symfony 3.4 standard gitignore
+/app/config/parameters.yml
+/build/
+/phpunit.xml
+/var/*
+!/var/cache
+!/var/logs
+!/var/sessions
+/var/cache/*
+/var/logs/*
+/var/sessions/*
+!/var/cache/.gitkeep
+!/var/logs/.gitkeep
+!/var/sessions/.gitkeep
+/vendor/
+/web/bundles/
+/web/uploads/
+
+# IDE e Sistemi Operativi
+.idea/
+.vscode/
+.DS_Store
+
+# Archivi vecchi
+appst1995.zip
+*.zip
+*.tar.gz

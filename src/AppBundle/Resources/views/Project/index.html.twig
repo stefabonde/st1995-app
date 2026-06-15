@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <h3>Progetti</h3>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <p>Elenco dei progetti</p>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <table class="table datatable">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th>Cliente</th>
+                        <th>Aggiornato il</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for project in projects %}
+                        <tr>
+                            <td>{{ project.id }}</td>
+                            <td>
+                                <a href="{{ path('project_detail', {'project': project.id}) }}">{{ project.name }}</a>
+                            </td>
+                            <td>
+                                <a href="{{ path('client_detail', {'client': project.client.id}) }}">{{ project.client }}</a>
+                            </td>
+                            <td>
+                                {{ project.updatedAt|date('d/m/Y') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

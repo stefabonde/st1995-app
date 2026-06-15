@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <h3>#{{ task.id }} - {{ task.title }}</h3>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col">
+                <table>
+                    <tr>
+                        <th>Priorità:</th>
+                        <td><i class="fas {{ task.priority.icon }}"></i> {{ task.priority }}</td>
+                    </tr>
+                    <tr>
+                        <th>Assegnato:</th>
+                        <td>
+                            <ul>
+                                {% for assignee in task.assignee %}
+                                    <li>{{ assignee }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Autore:</th>
+                        <td>{{ task.createdBy }}</td>
+                    </tr>
+                    <tr>
+                        <th>Data creazione:</th>
+                        <td>{{ task.createdAt|date('d/m/Y H:i:s') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Data aggiornamento:</th>
+                        <td>{{ task.updatedAt|date('d/m/Y H:i:s') }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col text-right">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('task_edit', {'task': task.id}) }}" class="btn btn-warning"><i
+                                class="fas fa-edit"></i>
+                        Modifica</a>
+                    <br><br>
+                {% endif %}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#timeModal">
+                    <i class="fas fa-clock"></i> Registra tempo
+                </button>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                <h5>Descrizione</h5>
+                <div class="description">{{ task.description|raw }}</div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col">
+                <hr>
+                <h5>Commenti ({{ task.taskNotes|length }})</h5>
+                {% for taskNote in task.taskNotes %}
+                    <div class="comment">
+                        <div class="comment-author clearfix">
+                            <p class="float-left">
+                                <img src="https://www.gravatar.com/avatar/{{ app.user.email|md5 }}?s=40"
+                                     alt="{{ app.user.username }}">
+                            </p>
+                            {{ taskNote.createdBy }}<br>
+                            {{ taskNote.createdAt|date('d/m/Y H:i:s') }}
+                        </div>
+                        <div class="description">
+                            {{ taskNote.description|raw }}
+                        </div>
+                        <hr>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col">
+                <h5>Aggiungi commento</h5>
+                {{ form(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block modal %}
+    <div class="modal fade" id="timeModal" tabindex="-1" role="dialog" aria-labelledby="timeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="timeModalLabel">Registra tempo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ path('track_task_time') }}" method="post">
+                        <input type="hidden" name="task" value="{{ task.id }}">
+                        <div class="form-group">
+                            <label for="timeTrackDate">Inserisci le ore da tracciare</label>
+                            <input type="date" id="timeTrackDate" name="timeTrackDate" class="form-control"
+                                   value="{{ 'now'|date('Y-m-d') }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="timeTrackValue">Inserisci le ore da tracciare</label>
+                            <input type="number" step=".5" min="0" name="timeTrackValue" id="timeTrackValue"
+                                   aria-describedby="timeHelpBlock" class="form-control">
+                            <small id="timeHelpBlock" class="form-text text-muted">Usa la virgola per la mezz'ora, ad
+                                esempio per 3 ore e mezzo scrivi 3,5
+                            </small>
+                        </div>
+                        <button type="submit" class="btn btn-primary form-control">Registra</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
