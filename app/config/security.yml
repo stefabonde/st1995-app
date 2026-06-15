@@ -33,4 +33,4 @@ security:
     - { path: ^/task/new, role: ROLE_ADMIN }
     - { path: ^/task/.*/edit, role: ROLE_ADMIN }
     - { path: ^/admin/, role: ROLE_ADMIN }
-    #- { path: ^/, role: ROLE_USER }
+    - { path: ^/, role: ROLE_USER }
