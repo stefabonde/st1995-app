@@ -1,6 +1,10 @@
 FROM php:7.4-apache
 
 # Install system dependencies
+# Debian 11 (bullseye) e' EOL: i repo sono passati ad archive.debian.org (deb.debian.org dava 404 sui .deb)
+RUN sed -i -e 's|deb.debian.org/debian-security|archive.debian.org/debian-security|' -e 's|deb.debian.org/debian|archive.debian.org/debian|' -e '/bullseye-updates/d' /etc/apt/sources.list \
+    && echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99archive
+
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
