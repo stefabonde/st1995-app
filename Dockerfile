@@ -1,4 +1,6 @@
-FROM php:7.4-apache
+# Base PHP 7.4 con il backport ufficiale CVE-2026-109618/109619 (php/php-src PHP-7.4-CVE-2026-109618-109619).
+# Immagine locale costruita sul server da infra/php74-patched (build.sh): se manca, `docker build` fallisce.
+FROM php74-patched:712e60f9
 
 # Install system dependencies
 # Debian 11 (bullseye) e' EOL: i repo sono passati ad archive.debian.org (deb.debian.org dava 404 sui .deb)
