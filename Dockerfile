@@ -24,10 +24,12 @@ RUN docker-php-ext-install pdo_mysql intl zip gd \
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Increase PHP upload limits and memory limit
+# Increase PHP upload limits and memory limit.
+# upload_progress off: mitigazione CVE-2026-115560 (richiesta CSIRT/CISO) fino alla prossima release PHP.
 RUN echo "upload_max_filesize = 64M" > /usr/local/etc/php/conf.d/custom.ini \
     && echo "post_max_size = 64M" >> /usr/local/etc/php/conf.d/custom.ini \
-    && echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/custom.ini
+    && echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "session.upload_progress.enabled = 0" >> /usr/local/etc/php/conf.d/custom.ini
 
 # Copy virtual host config
 COPY vhost.conf /etc/apache2/sites-available/000-default.conf
